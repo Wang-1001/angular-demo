@@ -1,0 +1,28 @@
+<div>
+  <input  type="text" [(ngModel)]="studentNo"  />
+  <input  type="text" [(ngModel)]="studentName"  />
+</div>
+
+<p>
+  <button nz-button nzType="primary" (click)="addStudent()">添加学生</button>
+</p>
+<nz-table [nzNoResult]="" [nzData]="students" [nzShowPagination]="false">
+  <thead>
+  <tr>
+    <th>学号</th>
+    <th>姓名</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of students">
+    <td>{{data.studentNo}}</td>
+    <td>{{data.studentName}}</td>
+    <td>
+      <a>Action 一 {{data.studentName}}</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a>Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

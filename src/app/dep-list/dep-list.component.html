@@ -1,0 +1,51 @@
+<form nz-form [nzLayout]="'inline'" [formGroup]="depForm" (ngSubmit)="submitDepForm()">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="请输入学院编码">
+      <nz-input-group nzPrefixIcon="wifi">
+        <input formControlName="depCode" nz-input placeholder="部门编码" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="请输入部门名称">
+      <nz-input-group nzPrefixIcon="wifi">
+        <input formControlName="depName" nz-input placeholder="部门名称" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="">
+      <nz-input-group nzPrefixIcon="wifi">
+        <input formControlName="depShortName" nz-input placeholder="部门简称" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="dashed" [disabled]="!depForm.valid">{{depForm.value.id>0?'更新部门':'新增部门'}}</button>
+      <button nz-button nzType="dashed" *ngIf="depForm.value.id>0" (click)="resetForm()">重置</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<nz-table #basicTable [nzLoading]="isloading" [nzData]="departments" [nzFrontPagination]="false">
+  <thead>
+  <tr>
+    <th>部门编码</th>
+    <th>部门名称</th>
+    <th>部门简称</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let dep of departments">
+    <td>{{dep.depCode}}</td>
+    <td>{{dep.depName}}</td>
+    <td>{{dep.depShortName}}</td>
+    <td>
+      <a (click)="editDep(dep)">编辑</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a nz-popconfirm nzTitle="确认删除此部门?" (nzOnConfirm)="delDep(dep)">删除</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
