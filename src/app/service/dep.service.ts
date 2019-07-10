@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+/*import {HttpClient} from '@angular/common/http';*/
+import { HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Department} from '../medel/dep.model';
 
@@ -14,6 +15,14 @@ export class DepService {
   public getDeps = (): Observable<Array<Department>> => {
     return  this.http.get<Array<Department>>('http://121.43.180.55:8182/api/departments');
   }
+  /**
+   * 获取部门-分页
+   */
+  public getDepsPaged = (pageIndex, pageSize): Observable<HttpResponse<any>> => {
+    return this.http.get<HttpResponse<any>>('http://121.43.180.55:8182/api/departments?page='
+      + pageIndex + '&size=' + pageSize , { observe: 'response' });
+  }
+
   /**
    * 创建部门
    */

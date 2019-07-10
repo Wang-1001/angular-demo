@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DepService} from '../service/dep.service';
 import {Department} from '../medel/dep.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-dep-list',
@@ -18,6 +19,9 @@ export class DepListComponent implements OnInit {
   isloading = false;
   departments: Array<Department> = new Array<Department>();
   depForm: FormGroup;
+  pageIndex = 1;
+  dataTotal = 0;
+  pageSize = 5;
 
 
   /**
@@ -28,7 +32,22 @@ export class DepListComponent implements OnInit {
    */
   getDeps() {
     this.isloading = true;
-    this.depService.getDeps().subscribe(
+    this.depService.getDepsPaged(this.pageIndex - 1 , this.pageSize).subscribe(
+      (data: HttpResponse<any>) => {
+        console.log('DepListComponent  getDeps data', data);
+        this.departments = data.body;
+        if (data.headers){
+          this.dataTotal = parseInt(data.headers.get('X-Total-Count'), 10);
+        }
+      },
+      (error) => {
+        console.log('DepListComponent  getDeps error', error);
+      },
+      () => {
+        this.isloading = false;
+      },
+    );
+    /*this.depService.getDeps().subscribe(
       (data) => {
         console.log('DepListComponent loadAllDepartments data', data);
         this.departments = data;
@@ -39,7 +58,7 @@ export class DepListComponent implements OnInit {
       () => {
         this.isloading = false;
       }
-    );
+    );*/
 
   }
 
